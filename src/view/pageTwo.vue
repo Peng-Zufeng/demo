@@ -1,3 +1,3 @@
 <template>
-  <div>ss</div>
+  <div>pageTwo</div>
 </template>
