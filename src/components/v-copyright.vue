@@ -3,10 +3,11 @@
 </template>
 <style scoped>
     div {
-        position: fixed;
-        bottom: 0;
-        width: 1170px;
+        /* width: 1690px; */
+        width: calc(100% - 230px);
         height: 59px;
-        background-color: bisque;
+        background-color: #ddd;
+        text-align: center;
+        line-height: 59px;
     }
 </style>

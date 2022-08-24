@@ -7,7 +7,7 @@ module.exports = defineConfig({
       entry: "src/main.js"
     }
   },
-  lintOnSave: true,
+  lintOnSave: false,
   devServer: {
     proxy: "http://172.16.30.64:3000/mock/155/"
   },

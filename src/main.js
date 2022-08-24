@@ -6,16 +6,17 @@ import VueRouter from 'vue-router';
     
 Vue.use(VueRouter);
 
-import routes from "@/router/index";
+import router from "@/router/index";
 Vue.use(ReasyUi);
 
 Vue.config.productionTip = false;
-const router = new VueRouter({
-  routes
-});
+
+// const router = new VueRouter({
+//   routes
+// });
 
 
 new Vue({
-  router: router,
-  render: h => h(App)
+  render: h => h(App),
+  router
 }).$mount("#app");

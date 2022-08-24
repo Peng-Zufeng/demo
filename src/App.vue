@@ -1,29 +1,52 @@
 <template>
-  <div id="app">
-    <div>{{msg}}</div>
-    <router-link to="/pageOne" class="nav-link">pageOne</router-link>
-    <router-link to="/pageTwo" class="nav-link">pageTwo</router-link>
-    <router-view></router-view>
+  <div>
+    <v-exit class="exit"/>
+    <v-menu :routes="routes" class="menu"/>
+    <v-page class="page"/>
+    <v-copyright class="copyright"/>
   </div>
 </template>
 <script>
+import vExit from '@/components/v-exit.vue';
+import vMenu from '@/components/v-menu.vue';
+import vPage from '@/components/v-page.vue';
+import vCopyright from '@/components/v-copyright.vue';
+import router from '@/router';
 export default {
   data(){
     return{
-      msg:"home"
+      msg:"home",
+      // routes: [{meta:{title:"Home"}}]
+      routes: router.options.routes
     }
+  },
+  components: {
+    vExit,
+    vMenu,
+    vPage,
+    vCopyright
   }
 }
 </script>
 <style scoped>
-#app {
-  margin: 10px auto;
-  width: 100px;
-  height: 65px;
+.exit {
+  position: fixed;
+  left: 230px;
+  top: 0;
 }
-.nav-link {
-  display: block;
-  margin-bottom: 10px;
-  text-decoration: none;
+.copyright {
+  position: fixed;
+  left: 230px;
+  bottom: 0;
+}
+.menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+.page {
+  position: fixed;
+  top: 56px;
+  left: 230px;
 }
 </style>
