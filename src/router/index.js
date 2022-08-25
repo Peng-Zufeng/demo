@@ -1,74 +1,79 @@
 import VueRouter from 'vue-router';
-
+const Menu = {
+  render(h) {
+    return h("router-view");
+  }
+};
 const routes = [
   {
     path: "/",
     name: "Basic",
     redict: "/basic/CableTest",
+    component: Menu,
     meta: {
       title: "Basic Function"
     },
     children: [
       {
-        path: "CableTest",
+        path: "/basic/CableTest",
         name: "CableTest",
-        component: () => require("@/view/basic/CableTest.vue"),
+        component: () => import("@/view/basic/CableTest.vue"),
         meta: {
           title: "Cable Test"
         }
       },
       {
-        path: "CloudManagement",
+        path: "/basic/CloudManagement",
         name: "CloudManagement",
-        component: () => require("@/view/basic/CloudManagement.vue"),
+        component: () => import("@/view/basic/CloudManagement.vue"),
         meta: {
           title: "Cloud Management"
         }
       },
       {
-        path: "Configuration",
+        path: "/basic/Configuration",
         name: "Configuration",
-        component: () => require("@/view/basic/Configuration.vue"),
+        component: () => import("@/view/basic/Configuration.vue"),
         meta: {
           title: "Configuration"
         }
       },
       {
-        path: "Diagnosis",
+        path: "/basic/Diagnosis",
         name: "Diagnosis",
-        component: () => require("@/view/basic/Diagnosis.vue"),
+        component: () => import("@/view/basic/Diagnosis.vue"),
         meta: {
           title: "Diagnosis"
         }
       },
       {
-        path: "Maintain",
+        path: "/basic/Maintain",
         name: "Maintain",
-        component: () => require("@/view/basic/Maintain.vue"),
+        component: () => import("@/view/basic/Maintain.vue"),
         meta: {
           title: "Maintain"
         }
       },
       {
-        path: "SystemView",
+        path: "/basic/SystemView",
         name: "SystemView",
-        component: () => require("@/view/basic/SystemView.vue"),
+        component: () => import("@/view/basic/SystemView.vue"),
         meta: {
           title: "System overview"
         }
       },
       {
-        path: "VLan",
+        path: "/basic/VLan",
         name: "VLan",
-        component: () => require("@/view/basic/VLan.vue"),
+        component: () => import("@/view/basic/VLan.vue"),
         meta: {
           title: "vlan Management",
         }
       },
       {
-        path: "UserManage",
+        path: "/basic/UserManage",
         name: "UserManage",
-        component: () => require("@/view/basic/UserManage.vue"),
+        component: () => import("@/view/basic/UserManage.vue"),
         meta: {
           title: "User Management"
         }
@@ -79,22 +84,23 @@ const routes = [
     path: "/network",
     name: "Network",
     redict: "/network/DHCPSnooping",
+    component: Menu,
     meta: {
       title: "Network Security"
     },
     children: [
       {
-        path: "DHCPSnooping",
+        path: "/network/DHCPSnooping",
         name: "DHCPSnooping",
-        component: () => require("@/view/network/DHCPSnooping.vue"),
+        component: () => import("@/view/network/DHCPSnooping.vue"),
         meta: {
           title: "DHCP Snooping"
         }
       },
       {
-        path: "MACBinding",
+        path: "/network/MACBinding",
         name: "MACBinding",
-        component: () => require("@/view/network/MACBinding.vue"),
+        component: () => import("@/view/network/MACBinding.vue"),
         meta: {
           title: "MAC Binding"
         }
@@ -108,55 +114,56 @@ const routes = [
     meta: {
       title: "Poe Management"
     },
-    component: () => require("@/view/poe/PoEPower.vue")
+    component: () => import("@/view/poe/PoEPower.vue")
   },
   {
     path: "/switch",
     name: "Switch",
     redict: "/switch/LoopGuard",
+    component: Menu,
     meta: {
       title: "Switching"
       },
     children: [
       {
-        path: "LoopGuard",
+        path: "/switch/LoopGuard",
         name: "LoopGuard",
         meta: {
           title: "Loop Guard"
         },
-        component: () => require("@/view/switch/LoopGuard.vue")
+        component: () => import("@/view/switch/LoopGuard.vue")
       },
       {
-        path: "Mirroring",
+        path: "/switch/Mirroring",
         name: "Mirroring",
         meta: {
           title: "Port Mirroring"
         },
-        component: () => require("@/view/switch/Mirroring.vue")
+        component: () => import("@/view/switch/Mirroring.vue")
       },
       {
-        path: "NetworkExtension",
+        path: "/switch/NetworkExtension",
         name: "NetworkExtension",
         meta: {
           title: "Network Extension"
         },
-        component: () => require("@/view/switch/NetworkExtension.vue")
+        component: () => import("@/view/switch/NetworkExtension.vue")
       },
       {
-        path: "Statistics",
+        path: "/switch/Statistics",
         name: "Statistics",
         meta: {
           title: "Port Statistics"
         },
-        component: () => require("@/view/switch/Statistics.vue")
+        component: () => import("@/view/switch/Statistics.vue")
       },
       {
-        path: "RateLimit",
+        path: "/switch/RateLimit",
         name: "RateLimit",
         meta: {
           title: "Port Rate Limit"
         },
-        component: () => require("@/view/switch/RateLimit.vue")
+        component: () => import("@/view/switch/RateLimit.vue")
       }
     ]
   }

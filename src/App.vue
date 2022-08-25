@@ -16,7 +16,6 @@ export default {
   data(){
     return{
       msg:"home",
-      // routes: [{meta:{title:"Home"}}]
       routes: router.options.routes
     }
   },
