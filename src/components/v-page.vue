@@ -19,5 +19,6 @@ div {
     height: 846px; */
     width: calc(100% - 230px);
     height: calc(100% - 115px);
+    margin: 28px 30px;
 }
 </style>
