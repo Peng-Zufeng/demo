@@ -1,10 +1,10 @@
 <template>
     <div>
         <router-link v-for="menuFirst in routes" :key="menuFirst.name" :to="menuFirst.redict">
-            <div  class="menuFirst" @click="changeShow(menuFirst)">
+            <div  class="menuFirst" @click="changeShow(menuFirst.name)">
                 <span >{{menuFirst.meta.title}}</span>
             </div>
-            <div  :class="['menuSecond']" :ref="`menuSec-${menuFirst.name}`" v-show="openSec">
+            <div  :class="['menuSecond',`menuSec-${menuFirst.name}`]" :ref="`menuSec-${menuFirst.name}`" v-show="openSec">
                 <router-link v-for="menuSecond in menuFirst.children" :key="menuSecond.name" :to="menuSecond.path" @click="clickSecond(menuSecond)">
                 <span >{{menuSecond.meta.title}}</span>
                 </router-link>
@@ -63,9 +63,13 @@ export default {
     //     }
     // },
     methods: {
-        changeShow(){
-            // this.$refs[`menuSec-${menuFirst}`].style.display = "block";
-            this.openSec = !this.openSec;
+        changeShow(name){
+            let dom =this.$refs[`menuSec-${name}`][0]
+            if(dom.style.display == "none"){
+                dom.style.display = "block";
+            }else{
+                dom.style.display = "none";
+            }
         },
         initMenu(){
             this.activeFirst = this.routes[0].name;

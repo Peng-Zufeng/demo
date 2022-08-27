@@ -15,10 +15,10 @@ export default {
 
 <style scoped>
 div {
-    /* width: 1690px;
-    height: 846px; */
+    overflow: auto;
     width: calc(100% - 230px);
-    height: calc(100% - 115px);
-    margin: 28px 30px;
+    height: 100%;
+    margin-top: 14px;
+    margin-left: 30px;
 }
 </style>

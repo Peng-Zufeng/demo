@@ -18,24 +18,24 @@
         {{ruleForm.DeviceName}}
       </v-form-item>
       <v-form-item label="DHCP Client">
-        <v-switch name="pn" v-model="ruleForm.on"></v-switch>
+        <v-switch name="DHCPEN" v-model="ruleForm.onDHCP" :on-value="1" :on-off="0"></v-switch>
       </v-form-item>
-      <v-form-item label="IP Address" prop="on">
+      <v-form-item label="IP Address" prop="on" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.ipAddress"></v-input>
       </v-form-item>
-      <v-form-item label="Subnet Mask" prop="downLimit">
+      <v-form-item label="Subnet Mask" prop="downLimit" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.SubnetMask"></v-input>
       </v-form-item>
-      <v-form-item label="Gateway" :required="false">
+      <v-form-item label="Gateway" :required="false" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.Gateway"></v-input>
       </v-form-item>
-      <v-form-item label="Auto DNS" :required="false">
-        <v-switch name="pn" v-model="ruleForm.on"></v-switch>
+      <v-form-item label="Auto DNS" :required="false" :disabled="!changeDHCP" :on-value="1" :on-off="0">
+        <v-switch name="AutoEN" v-model="ruleForm.onAuto"></v-switch>
       </v-form-item>
-      <v-form-item label="Primary DNS" :required="false">
+      <v-form-item label="Primary DNS" :required="false" :disabled="changeAuto">
         <v-input name="ssid" v-model="ruleForm.PrimaryDNS"></v-input>
       </v-form-item>
-      <v-form-item label="Secondary DNS" >
+      <v-form-item label="Secondary DNS" :disabled="changeAuto">
         <v-input name="ssid" v-model="ruleForm.SecondaryDNS"></v-input>
       </v-form-item>
       <v-form-item label="Cloud Management">
@@ -75,7 +75,8 @@ export default {
         Gateway: "192.168.0.1",
         PrimaryDNS:"203.0.50.46",
         SecondaryDNS:"73.141.167.27",
-        on: true,
+        onDHCP: false,
+        onAuto: false,
       },
       options: [
         {
@@ -111,46 +112,7 @@ export default {
           value: 8,
         }
       ],
-      checkboxOptions: [
-        {
-          label: "星期一",
-          value: "1",
-        },
-        {
-          label: "星期二",
-          value: "2",
-        },
-        {
-          label: "星期三",
-          value: "3",
-        },
-        {
-          label: "星期四",
-          value: "4",
-        },
-        {
-          label: "星期五",
-          value: "5",
-        },
-        {
-          label: "星期六",
-          value: "6",
-        },
-        {
-          label: "星期日",
-          value: "7",
-        },
-      ],
-      radioOptions: [
-        {
-          label: "加密",
-          value: "aes",
-        },
-        {
-          label: "不加密",
-          value: "none",
-        },
-      ],
+
       showButton:false,
       showDialog: false,
       dialogTitle: "Note",
@@ -164,16 +126,27 @@ export default {
       this.showDialog = !this.showDialog;
       this.$message.success("验证成功");
       console.log("submit data", data);
-    },
-    checkIp(ip) {
-      let ipArr = ip.split(".");
-      if (+ipArr[0] <= 193) {
-        return "自定义验证说明";
-      }
+      setTimeout(()=>{
+        this.showDialog = !this.showDialog;
+      },3000)
     },
     cancel() {},
   },
-  watch: {},
+  watch: {
+    "ruleForm.onDHCP": function(value){
+      if(value==0){
+        this.ruleForm.onAuto = false;
+      }
+    }
+  },
+  computed: {
+    changeDHCP(){
+      return this.ruleForm.onDHCP == true;
+    },
+    changeAuto(){
+      return this.ruleForm.onAuto == true;
+    }
+  }
 };
 </script>
 
