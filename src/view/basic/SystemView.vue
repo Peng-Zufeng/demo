@@ -3,43 +3,43 @@
     <v-form ref="form"  @submit="submit">
       <v-form-item label="System Info" style="color:red; font-weight:bold;"></v-form-item>
       <v-form-item label="Firmware Version">
-        {{ruleForm.FirmwareVersion}}
+        {{ruleForm.softV}}
       </v-form-item>
       <v-form-item label="Hardware Version">
-        {{ruleForm.HardwareVersion}}
+        {{ruleForm.hardV}}
       </v-form-item>
       <v-form-item label="MAC Address">
-        {{ruleForm.MACAddress}}
+        {{ruleForm.mac}}
       </v-form-item>
       <v-form-item label="Management VLAN" prop="index">
-        <v-select name="limit" v-model="ruleForm.downLimit" :options="options"></v-select>
+        <v-select name="limit" v-model="ruleForm.vlan" :options="ruleForm.vlanOpts"></v-select>
       </v-form-item>
       <v-form-item label="Device Name">
-        {{ruleForm.DeviceName}}
+        {{ruleForm.name}}
       </v-form-item>
       <v-form-item label="DHCP Client">
-        <v-switch name="DHCPEN" v-model="ruleForm.onDHCP" :on-value="1" :on-off="0"></v-switch>
+        <v-switch name="DHCPEN" v-model="ruleForm.autoIp" :on-value="1" :on-off="0"></v-switch>
       </v-form-item>
       <v-form-item label="IP Address" prop="on" :disabled="changeDHCP">
-        <v-input name="ssid" v-model="ruleForm.ipAddress"></v-input>
+        <v-input name="ssid" v-model="ruleForm.ip"></v-input>
       </v-form-item>
       <v-form-item label="Subnet Mask" prop="downLimit" :disabled="changeDHCP">
-        <v-input name="ssid" v-model="ruleForm.SubnetMask"></v-input>
+        <v-input name="ssid" v-model="ruleForm.mask"></v-input>
       </v-form-item>
       <v-form-item label="Gateway" :required="false" :disabled="changeDHCP">
-        <v-input name="ssid" v-model="ruleForm.Gateway"></v-input>
+        <v-input name="ssid" v-model="ruleForm.gateway"></v-input>
       </v-form-item>
       <v-form-item label="Auto DNS" :required="false" :disabled="!changeDHCP" :on-value="1" :on-off="0">
-        <v-switch name="AutoEN" v-model="ruleForm.onAuto"></v-switch>
+        <v-switch name="AutoEN" v-model="ruleForm.autoDns"></v-switch>
       </v-form-item>
       <v-form-item label="Primary DNS" :required="false" :disabled="changeAuto">
-        <v-input name="ssid" v-model="ruleForm.PrimaryDNS"></v-input>
+        <v-input name="ssid" v-model="ruleForm.preDns"></v-input>
       </v-form-item>
       <v-form-item label="Secondary DNS" :disabled="changeAuto">
-        <v-input name="ssid" v-model="ruleForm.SecondaryDNS"></v-input>
+        <v-input name="ssid" v-model="ruleForm.secDns"></v-input>
       </v-form-item>
       <v-form-item label="Cloud Management">
-        {{ruleForm.CloudManagement}}
+        {{ruleForm.ims}}
       </v-form-item>
       <v-form-item>
         <v-button name="ok" type="primary" @click="submitForm">Save</v-button>
@@ -62,57 +62,25 @@
 <script>
 export default {
   data() {
+    this.getUrl = "getSysInfo";
+    this.setUrl = "setSysInfo";
     return {
       ruleForm: {
-        FirmwareVersion: "voluptat",
-        HardwareVersion: "id Duis",
-        MACAddress: "A4:88:BA:2B:B9:15",
-        DeviceName: "veli",
-        CloudManagement: "Disconnected",
-        downLimit: 1,
-        ipAddress:"192.168.0.11",
-        SubnetMask:"255.255.255.0",
-        Gateway: "192.168.0.1",
-        PrimaryDNS:"203.0.50.46",
-        SecondaryDNS:"73.141.167.27",
-        onDHCP: false,
-        onAuto: false,
+        softV: "",
+        hardV: "",
+        mac: "",
+        vlan: "",
+        vlanOpts: [],
+        name: "",
+        autoIp: "0",
+        ip: "",
+        mask: "",
+        gateway: "",
+        autoDns: "0",
+        preDns: "",
+        secDns: "",
+        ims: ""
       },
-      options: [
-        {
-          label: "1",
-          value: 1,
-        },
-        {
-          label: "2",
-          value: 2,
-        },
-        {
-          label: "3",
-          value: 3,
-        },
-        {
-          label: "4",
-          value: 4,
-        },
-        {
-          label: "10",
-          value: 5,
-        },
-        {
-          label: "20",
-          value: 6,
-        },
-        {
-          label: "99",
-          value: 7,
-        },
-        {
-          label: "100",
-          value: 8,
-        }
-      ],
-
       showButton:false,
       showDialog: false,
       dialogTitle: "Note",
@@ -131,21 +99,29 @@ export default {
       },3000)
     },
     cancel() {},
+    getData() {
+      this.$getData(this.getUrl).then(res=>{
+        this.ruleForm = res;
+      })
+    }
   },
   watch: {
-    "ruleForm.onDHCP": function(value){
+    "ruleForm.autoIp": function(value){
       if(value==0){
-        this.ruleForm.onAuto = false;
+        this.ruleForm.autoDns = "0";
       }
     }
   },
   computed: {
     changeDHCP(){
-      return this.ruleForm.onDHCP == true;
+      return this.ruleForm.autoIp == "1";
     },
     changeAuto(){
-      return this.ruleForm.onAuto == true;
+      return this.ruleForm.autoDns == "1";
     }
+  },
+  mounted(){
+    this.getData();
   }
 };
 </script>

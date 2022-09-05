@@ -27,10 +27,4 @@ const valid = {
         }
     }
     };
-export default{
-    install(Vue){
-          //绑定在原型链上
-            Vue.prototype.$valid = valid;
-    }
-
-}
+export { valid };

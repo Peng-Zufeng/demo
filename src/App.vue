@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-exit class="exit"/>
-    <v-menu :routes="routes" class="menu"/>
+    <v-mymenu :routes="routes" class="menu"/>
     <v-page class="page"/>
     <v-copyright class="copyright"/>
   </div>
 </template>
 <script>
 import vExit from '@/components/v-exit.vue';
-import vMenu from '@/components/v-menu.vue';
+import vMymenu from '@/components/v-mymenu.vue';
 import vPage from '@/components/v-page.vue';
 import vCopyright from '@/components/v-copyright.vue';
 import router from '@/router';
@@ -21,7 +21,7 @@ export default {
   },
   components: {
     vExit,
-    vMenu,
+    vMymenu,
     vPage,
     vCopyright
   }
