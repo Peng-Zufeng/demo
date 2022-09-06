@@ -1,6 +1,5 @@
 import axios from 'axios';
 let baseUrl = "http://172.16.30.64:3000/mock/155/goform"
-
 class Http{
     get(url,data){
         if(url.indexOf('/')!=0){
@@ -20,7 +19,7 @@ class Http{
                 "content-type": "application/json;charset=utf-8"
             }
         }).then(function(res){
-            console.log(res);
+            return res.data;
         })
     }
     set(){

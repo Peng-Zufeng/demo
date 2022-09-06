@@ -26,13 +26,13 @@
       <v-form-item label="Subnet Mask" prop="downLimit" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.mask"></v-input>
       </v-form-item>
-      <v-form-item label="Gateway" :required="false" :disabled="changeDHCP">
+      <v-form-item label="Gateway"  :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.gateway"></v-input>
       </v-form-item>
-      <v-form-item label="Auto DNS" :required="false" :disabled="!changeDHCP" :on-value="1" :on-off="0">
-        <v-switch name="AutoEN" v-model="ruleForm.autoDns"></v-switch>
+      <v-form-item label="Auto DNS" :disabled="!changeDHCP">
+        <v-switch name="AutoEN" v-model="ruleForm.autoDns" :on-value="1" :on-off="0"></v-switch>
       </v-form-item>
-      <v-form-item label="Primary DNS" :required="false" :disabled="changeAuto">
+      <v-form-item label="Primary DNS" :disabled="changeAuto">
         <v-input name="ssid" v-model="ruleForm.preDns"></v-input>
       </v-form-item>
       <v-form-item label="Secondary DNS" :disabled="changeAuto">
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import {copyDeepData} from '@/common/utils'
 export default {
   data() {
     this.getUrl = "getSysInfo";
@@ -93,7 +94,6 @@ export default {
     submit(data) {
       this.showDialog = !this.showDialog;
       this.$message.success("验证成功");
-      console.log("submit data", data);
       setTimeout(()=>{
         this.showDialog = !this.showDialog;
       },3000)
@@ -101,7 +101,8 @@ export default {
     cancel() {},
     getData() {
       this.$getData(this.getUrl).then(res=>{
-        this.ruleForm = res;
+        this.ruleForm = copyDeepData(res);
+        this.ruleForm.vlanOpts.sort((a,b)=>a-b);
       })
     }
   },

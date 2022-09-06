@@ -15,9 +15,9 @@
             <div class="clearFix"></div>
             <div class="table">
                 <v-table name="tbale" :data="table" size="S">
-                    <v-table-col type="index" label="Port" align="center"> </v-table-col>
-                    <v-table-col prop="status" label="PoE Status" align="center"> </v-table-col>
-                    <v-table-col prop="power" label="Supplied Power [W]" align="center"></v-table-col>
+                    <v-table-col prop="port" label="Port" align="center" :format = "portText"> </v-table-col>
+                    <v-table-col prop="poeEn" label="PoE Status" align="center" :format = "poeEnText"></v-table-col>
+                    <v-table-col prop="power" label="Supplied Power [W]" align="center" :format = "powerText"></v-table-col>
                 </v-table>
             </div>
         </div>
@@ -54,46 +54,14 @@
 <script>
 export default {
     data() {
+        this.getUrl = "getPoe";
+        this.setUrl = "setPoe";
         return {
             ruleForm: {
-                cousumPower: '34.3 W',
-                remainingPower: '22.4 W'
+                cousumPower: '',
+                remainingPower: '',
             },
-            table: [
-            {
-                status: "--",
-                power: '0.00',
-            },
-            {
-                status: "Enable",
-                power: '333',
-            },
-            {
-                status: "Disable",
-                power: '45.8',
-            },
-            {
-                status: "Enable",
-                power: '345.5',
-            },
-            {
-                status: "Enable",
-                power: '54',
-            },
-            {
-                status: "Enable",
-                power: '456.87',
-            },
-            {
-                status: "Enable",
-                power: '44t',
-            },
-            {
-                index: "SPT",
-                status: "Disable",
-                power: '33',
-            },
-            ],
+            table: [],
             closeOnClickModal: false,
             dialogTitle: "PoE Port Configuration",
 
@@ -132,7 +100,26 @@ export default {
         },
         handleDialogInputClick() {
             this.showInputDialog = !this.showInputDialog;
+        },
+        getData(){
+            this.$getData(this.getUrl).then(({used,remain,list})=>{
+                this.table = list;
+                this.ruleForm.cousumPower = used;
+                this.ruleForm.remainingPower = remain;
+            })
+        },
+        portText(prop,rowData) {
+            return rowData[prop] || "STF"
+        },
+        poeEnText(prop,rowData) {
+            return rowData[prop] =="" ? "--" : rowData[prop] == 1 ? "Enable" : "Disable";
+        },
+        powerText(prop,rowData) {
+            return rowData[prop] || "0.00"
         }
+    },
+    mounted() {
+        this.getData();
     }
 }
 </script>
