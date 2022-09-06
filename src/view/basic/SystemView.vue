@@ -11,31 +11,31 @@
       <v-form-item label="MAC Address">
         {{ruleForm.mac}}
       </v-form-item>
-      <v-form-item label="Management VLAN" prop="index">
+      <v-form-item label="Management VLAN" prop="vlanOpts">
         <v-select name="limit" v-model="ruleForm.vlan" :options="ruleForm.vlanOpts"></v-select>
       </v-form-item>
       <v-form-item label="Device Name">
         {{ruleForm.name}}
       </v-form-item>
-      <v-form-item label="DHCP Client">
+      <v-form-item label="DHCP Client" prop="autoIp">
         <v-switch name="DHCPEN" v-model="ruleForm.autoIp" :on-value="1" :on-off="0"></v-switch>
       </v-form-item>
-      <v-form-item label="IP Address" prop="on" :disabled="changeDHCP">
+      <v-form-item label="IP Address" prop="ip" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.ip"></v-input>
       </v-form-item>
-      <v-form-item label="Subnet Mask" prop="downLimit" :disabled="changeDHCP">
+      <v-form-item label="Subnet Mask" prop="mask" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.mask"></v-input>
       </v-form-item>
-      <v-form-item label="Gateway"  :disabled="changeDHCP">
+      <v-form-item label="Gateway" prop="gateway"  :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.gateway"></v-input>
       </v-form-item>
-      <v-form-item label="Auto DNS" :disabled="!changeDHCP">
+      <v-form-item label="Auto DNS" prop="autoDns" :disabled="!changeDHCP">
         <v-switch name="AutoEN" v-model="ruleForm.autoDns" :on-value="1" :on-off="0"></v-switch>
       </v-form-item>
-      <v-form-item label="Primary DNS" :disabled="changeAuto">
+      <v-form-item label="Primary DNS" prop="preDns" :disabled="changeAuto">
         <v-input name="ssid" v-model="ruleForm.preDns"></v-input>
       </v-form-item>
-      <v-form-item label="Secondary DNS" :disabled="changeAuto">
+      <v-form-item label="Secondary DNS" prop="secDns" :disabled="changeAuto">
         <v-input name="ssid" v-model="ruleForm.secDns"></v-input>
       </v-form-item>
       <v-form-item label="Cloud Management">
@@ -94,6 +94,10 @@ export default {
     submit(data) {
       this.showDialog = !this.showDialog;
       this.$message.success("验证成功");
+      this.$setData(this.setUrl,data).then(res=>{
+        console.log(data);
+        console.log(res);
+      })
       setTimeout(()=>{
         this.showDialog = !this.showDialog;
       },3000)

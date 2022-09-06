@@ -32,11 +32,13 @@ export default {
   position: fixed;
   left: 230px;
   top: 0;
+  min-width: 1000px;
 }
 .copyright {
   position: fixed;
   left: 230px;
   bottom: 0;
+  min-width: 1000px;
 }
 .menu {
   position: fixed;
@@ -47,5 +49,6 @@ export default {
   position: fixed;
   top: 56px;
   left: 230px;
+  min-width: 1000px;
 }
 </style>
