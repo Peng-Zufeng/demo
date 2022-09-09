@@ -1,4 +1,4 @@
-import VueRouter from 'vue-router';
+import VueRouter from "vue-router";
 const Menu = {
   render(h) {
     return h("router-view");
@@ -7,13 +7,22 @@ const Menu = {
 const routes = [
   {
     path: "/",
-    name: "Basic",
-    redict: "/basic/CableTest",
+    name: "basic",
+    redict: "/basic/SystemView",
     component: Menu,
     meta: {
-      title: "Basic Function"
+      title: "Basic Function",
+      icon: "icon-basic"
     },
     children: [
+      {
+        path: "/basic/SystemView",
+        name: "SystemView",
+        component: () => import("@/view/basic/SystemView.vue"),
+        meta: {
+          title: "System overview"
+        }
+      },
       {
         path: "/basic/CableTest",
         name: "CableTest",
@@ -55,19 +64,11 @@ const routes = [
         }
       },
       {
-        path: "/basic/SystemView",
-        name: "SystemView",
-        component: () => import("@/view/basic/SystemView.vue"),
-        meta: {
-          title: "System overview"
-        }
-      },
-      {
         path: "/basic/VLan",
         name: "VLan",
         component: () => import("@/view/basic/VLan.vue"),
         meta: {
-          title: "vlan Management",
+          title: "vlan Management"
         }
       },
       {
@@ -81,49 +82,14 @@ const routes = [
     ]
   },
   {
-    path: "/network",
-    name: "Network",
-    redict: "/network/DHCPSnooping",
-    component: Menu,
-    meta: {
-      title: "Network Security"
-    },
-    children: [
-      {
-        path: "/network/DHCPSnooping",
-        name: "DHCPSnooping",
-        component: () => import("@/view/network/DHCPSnooping.vue"),
-        meta: {
-          title: "DHCP Snooping"
-        }
-      },
-      {
-        path: "/network/MACBinding",
-        name: "MACBinding",
-        component: () => import("@/view/network/MACBinding.vue"),
-        meta: {
-          title: "MAC Binding"
-        }
-      }
-    ]
-  },
-  {
-    path: "/PoeManagement",
-    name: "Poe",
-    redict: "/PoeManagement",
-    meta: {
-      title: "Poe Management"
-    },
-    component: () => import("@/view/poe/PoEPower.vue")
-  },
-  {
     path: "/switch",
-    name: "Switch",
+    name: "switch",
     redict: "/switch/LoopGuard",
     component: Menu,
     meta: {
-      title: "Switching"
-      },
+      title: "Switching",
+      icon: "icon-switch"
+    },
     children: [
       {
         path: "/switch/LoopGuard",
@@ -166,10 +132,46 @@ const routes = [
         component: () => import("@/view/switch/RateLimit.vue")
       }
     ]
+  },
+  {
+    path: "/poe",
+    name: "poe",
+    redict: "/poe",
+    meta: {
+      title: "Poe Management",
+      icon: "icon-poe"
+    },
+    component: () => import("@/view/poe/PoEPower.vue")
+  },
+  {
+    path: "/network",
+    name: "network",
+    redict: "/network/DHCPSnooping",
+    component: Menu,
+    meta: {
+      title: "Network Security",
+      icon: "icon-network"
+    },
+    children: [
+      {
+        path: "/network/DHCPSnooping",
+        name: "DHCPSnooping",
+        component: () => import("@/view/network/DHCPSnooping.vue"),
+        meta: {
+          title: "DHCP Snooping"
+        }
+      },
+      {
+        path: "/network/MACBinding",
+        name: "MACBinding",
+        component: () => import("@/view/network/MACBinding.vue"),
+        meta: {
+          title: "MAC Binding"
+        }
+      }
+    ]
   }
 ];
-export default new VueRouter(
-  {
-    routes
-  }
-);
+export default new VueRouter({
+  routes
+});

@@ -1,142 +1,150 @@
 <template>
-    <div>
-        <router-link v-for="menuFirst in routes" :key="menuFirst.name" :to="menuFirst.redict">
-            <div  class="menuFirst" @click="changeShow(menuFirst.name)">
-                <span >{{menuFirst.meta.title}}</span>
-            </div>
-            <div  :class="['menuSecond',`menuSec-${menuFirst.name}`]" :ref="`menuSec-${menuFirst.name}`" v-show="openSec">
-                <router-link v-for="menuSecond in menuFirst.children" :key="menuSecond.name" :to="menuSecond.path" @click="clickSecond(menuSecond)">
-                <span >{{menuSecond.meta.title}}</span>
-                </router-link>
-            </div>
+  <div class="content">
+    <img :src='require("@/assets/img/logo.png")' alt="logo">
+    <router-link v-for="menuFirst in routes" :key="menuFirst.name" :to=" menuFirst.redict" class="rootLink">
+      <div :class="['menuFirst',`menuFir-${menuFirst.name}`,{'active':menuFirst.name==activeFirst},{'Firstactive':(!menuFirst.children)&&(menuFirst.name==activeSecond)}]" :ref="`menuFir-${menuFirst.name}`" @click="changeShow(menuFirst.name)">
+        <span :class="['menuFir-title',`icon-${menuFirst.name}`]">{{menuFirst.meta.title}}
+        </span>
+        <span v-if="menuFirst.children" :class="['v-icon-down',{'menuUp':menuFirst.name==activeFirst}]"></span>
+      </div>
+      <div :class="['menuSecond',`menuSec-${menuFirst.name}`]" :ref="`menuSec-${menuFirst.name}`" v-show="openSec">
+        <router-link v-for="menuSecond in menuFirst.children" :key="menuSecond.name" :to="menuSecond.path">
+          <span>{{menuSecond.meta.title}}</span>
         </router-link>
-    </div>
+      </div>
+    </router-link>
+  </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            activeFirst: '',
-            activeSecond: '',
-            openSec: false
+  data() {
+    return {
+      activeFirst: "",
+      activeSecond: "",
+      openSec: false,
+    };
+  },
+  props: {
+    routes: Array,
+  },
+  methods: {
+    changeShow(name) {
+      let secDom = this.$refs[`menuSec-${name}`][0];
+      let allDom = document.getElementsByClassName("menuSecond");
+      for (let i = 0; i < allDom.length; i++) {
+        if (allDom[i].classList === secDom.classList) {
+          this.activeSecond = name;
+          continue;
+        } else {
+          allDom[i].style.display = "none";
         }
+      }
+      if (secDom.style.display == "none") {
+        secDom.style.display = "block";
+        this.activeFirst = name;
+        this.activeSecond = name;
+      } else {
+        secDom.style.display = "none";
+        // this.activeFirst = "";
+      }
     },
-    props: {
-        routes: Array
+    initMenu() {
+      let rootLink = document.getElementsByClassName("rootLink");
+      for (let j = 0; j < rootLink.length; j++) {
+        if (rootLink[j].classList.contains("router-link-exact-active")) {
+          this.activeFirst = this.getFirstName(rootLink[j].href);
+          this.activeSecond = this.getFirstName(rootLink[j].href);
+          rootLink[j].children[1].style.display = "block";
+        }
+      }
     },
-    // watch: {
-    //     $route:{
-    //         handler(obj) {
-    //             this.routes.forEach(element => {
-    //                 if(element.name == obj.name) {
-    //                     this.activeFirst = obj.name;
-    //                     this.activeSecond = "";
-    //                     return;
-    //                 }else if(element.children){
-    //                     element.children.forEach(el => {
-    //                         if(el.name == obj.name) {
-    //                             this.activeFirst = element.name;
-    //                             this.activeSecond = el.name;
-    //                             return;
-    //                         }
-    //                     });
-    //                 }
-    //             });
-    //             this.openSec = true;
-    //         },
-    //         immediate: true
-    //     },
+    //点击自身一级菜单时，保存子菜单路由；点击其他一级菜单，默认路由
+    redirectPath(menuFirst) {
+      if (menuFirst.name == this.activeFirst) {
+        return "";
+      } else {
+        return menuFirst.redict;
+      }
 
-    //     activeFirst: {
-    //         handler(newVal,oldVal) {
-    //             this.$nextTick(()=>{
-    //                 if(oldVal){
-    //                     this.$refs[`menuSec-${oldVal}`] && this.setSecHeight(oldVal,false);
-    //                     this.$emit("close",oldVal);
-    //                 }
-    //                 newVal && this.activeSecond && this.setSecHeight(newVal,true);
-    //                 this.$emit("open",newVal);
-    //             })
-    //         },
-    //         immediate: true
-    //     }
-    // },
-    methods: {
-        changeShow(name){
-            let dom =this.$refs[`menuSec-${name}`][0]
-            if(dom.style.display == "none"){
-                dom.style.display = "block";
-            }else{
-                dom.style.display = "none";
-            }
-        },
-        initMenu(){
-            this.activeFirst = this.routes[0].name;
-            if(this.routes[0].children){
-                this.activeSecond = this.routes[0].children[0].name;
-                this.openSec = true;
-            }
-        },
-        setSecHeight(name,isShow){
-            this.$nextTick(()=>{
-                let dom = this.$refs[`menuSec-${name}`][0];
-                dom.style.height = isShow ?  window.getComputedStyle(dom).height : 0;
-            });
-        },
-        clickFirst(menuFirst){
-            if(this.activeFirst== menuFirst.name){
-                this.openSec = !this.openSec;
-                console.log(this.openSec);
-                menuFirst.children && this.setSecHeight(menuFirst.name,this.openSec);
-            }else {
-                this.activeFirst = menuFirst.name;
-                this.activeSecond = menuFirst.children? menuFirst.children[0].name : "";
-                this.openSec = true;
-            }
-            this.$emit("clickFirst",menuFirst)
-        },
-        clickSecond(menuSecond){
-            this.activeSecond = menuSecond.name;
-            this.$emit("clickSecond",menuSecond)
-        }
+      // return menuFirst.name == this.activeFirst &&
+      //   menuFirst.children &&
+      //   menuFirst.children[0].name == this.activeSecond
+      //   ? ""
+      //   : menuFirst.path;
     },
-    // mounted(){
-    //     this.initMenu();
-    // }
-}
+    getFirstName(string) {
+      let str1 = string.split("#/")[1];
+      let str2 = str1.split("/")[0];
+      return str2;
+    },
+  },
+  mounted() {
+    window.addEventListener("load", () => {
+      this.initMenu();
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    div {
-        width: 230px;
-        height: 100%;
-        background-color: black;
+.content {
+  width: 230px;
+  height: 100%;
+  background-color: black;
+  img {
+    width: 230px;
+    height: 72px;
+    padding: 23px 27px;
+  }
+  a {
+    display: block;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    .active {
+      color: #fff;
     }
-    a {
-        display: block;
-        color: white;
-        text-decoration: none;
-    }
-    .menuFirst {
-        padding-left: 50px;
-        margin: 20px 0;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    .menuSecond{
-        a{
-            padding-left: 50px;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-    }
-    .menuSecond{
-        /* height: 0; */
-        /* overflow: hidden; */
-    }
-    /* .menuFirst:first-child{
-        display: block;
-    } */
-
+  }
+  a:hover {
+    color: #fff;
+  }
+}
+.menuFirst {
+  height: 54px;
+  font-size: 15px;
+  line-height: 54px;
+  .menuFir-title {
+    padding-left: 50px;
+  }
+  .menuFir-title::before {
+    margin: 0 15px 0 -30px;
+  }
+  [class^="v-icon"] {
+    position: absolute;
+    right: 20px;
+    margin: 20px 0;
+  }
+  .menuUp {
+    transform: rotate(180deg);
+    transform-origin: center;
+    transition: transform 0.3s;
+  }
+}
+.Firstactive {
+  background-color: red;
+}
+.menuSecond {
+  // display: none;
+  a {
+    height: 40px;
+    padding-left: 50px;
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 40px;
+  }
+  .router-link-exact-active {
+    color: #fff;
+    background-color: red;
+  }
+}
 </style>

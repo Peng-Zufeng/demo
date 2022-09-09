@@ -1,24 +1,24 @@
 <template>
-    <div>
-        <router-view></router-view>
-    </div>
+  <div class="container">
+    <router-view class="view"></router-view>
+  </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-        }
-    },
-}
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style scoped>
-div {
-    overflow: auto;
-    width: calc(100% - 230px);
-    height: 100%;
-    margin-top: 14px;
-    margin-left: 30px;
+.container {
+  width: 1690px;
+  overflow: auto;
+}
+.view {
+  margin-top: 14px;
+  margin-left: 30px;
 }
 </style>

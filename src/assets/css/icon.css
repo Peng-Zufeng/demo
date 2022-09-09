@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.svg?ht1l6f#icomoon") format("svg"),
+  url("../fonts/icomoon.ttf?ht1l6f") format("truetype"),
+  url("../fonts/icomoon.woff?ht1l6f") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  display:block;
+}
+[class^="icon-"],
+[class*=" icon-"]{
+  font-family: "icomoon"!important;
+  font-weight: normal;
+  font-style: normal;
+}
+.icon-basic::before {
+  content: '\e28';
+}
+.icon-switch::before{
+  content: "\e26";
+}
+.icon-poe::before {
+  content: "\e29";
+}
+.icon-network::before {
+  content: "\e27";
+}

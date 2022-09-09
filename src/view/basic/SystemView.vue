@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form ref="form"  @submit="submit">
+    <v-form ref="form" @submit="submit">
       <v-form-item label="System Info" style="color:red; font-weight:bold;"></v-form-item>
       <v-form-item label="Firmware Version">
         {{ruleForm.softV}}
@@ -26,7 +26,7 @@
       <v-form-item label="Subnet Mask" prop="mask" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.mask"></v-input>
       </v-form-item>
-      <v-form-item label="Gateway" prop="gateway"  :disabled="changeDHCP">
+      <v-form-item label="Gateway" prop="gateway" :disabled="changeDHCP">
         <v-input name="ssid" v-model="ruleForm.gateway"></v-input>
       </v-form-item>
       <v-form-item label="Auto DNS" prop="autoDns" :disabled="!changeDHCP">
@@ -45,22 +45,14 @@
         <v-button name="ok" type="primary" @click="submitForm">Save</v-button>
       </v-form-item>
     </v-form>
-    <v-dialog
-      name="basic"
-      v-model="showDialog"
-      :show-close="showButton"
-      :show-confirm="showButton"
-      :show-cancel="showButton"
-      :title="dialogTitle"
-      append-to-body
-    >
+    <v-dialog name="basic" v-model="showDialog" :show-close="showButton" :show-confirm="showButton" :show-cancel="showButton" :title="dialogTitle" append-to-body>
       Saving configurations…After completion, you will be redirected to the new IP address
     </v-dialog>
   </div>
 </template>
 
 <script>
-import {copyDeepData} from '@/common/utils'
+import { copyDeepData } from "@/common/utils";
 export default {
   data() {
     this.getUrl = "getSysInfo";
@@ -80,9 +72,9 @@ export default {
         autoDns: "0",
         preDns: "",
         secDns: "",
-        ims: ""
+        ims: "",
       },
-      showButton:false,
+      showButton: false,
       showDialog: false,
       dialogTitle: "Note",
     };
@@ -94,43 +86,42 @@ export default {
     submit(data) {
       this.showDialog = !this.showDialog;
       this.$message.success("验证成功");
-      this.$setData(this.setUrl,data).then(res=>{
+      this.$setData(this.setUrl, data).then((res) => {
         console.log(data);
         console.log(res);
-      })
-      setTimeout(()=>{
+      });
+      setTimeout(() => {
         this.showDialog = !this.showDialog;
-      },3000)
+      }, 3000);
     },
     cancel() {},
     getData() {
-      this.$getData(this.getUrl).then(res=>{
-        this.ruleForm = copyDeepData(res);
-        this.ruleForm.vlanOpts.sort((a,b)=>a-b);
-      })
-    }
+      this.$getData(this.getUrl).then((res) => {
+        this.ruleForm = res;
+        this.ruleForm.vlanOpts.sort((a, b) => a - b);
+      });
+    },
   },
   watch: {
-    "ruleForm.autoIp": function(value){
-      if(value==0){
+    "ruleForm.autoIp": function (value) {
+      if (value == 0) {
         this.ruleForm.autoDns = "0";
       }
-    }
+    },
   },
   computed: {
-    changeDHCP(){
+    changeDHCP() {
       return this.ruleForm.autoIp == "1";
     },
-    changeAuto(){
+    changeAuto() {
       return this.ruleForm.autoDns == "1";
-    }
+    },
   },
-  mounted(){
+  mounted() {
     this.getData();
-  }
+  },
 };
 </script>
 
 <style scoped>
-
 </style>
