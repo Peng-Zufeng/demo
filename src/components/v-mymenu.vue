@@ -53,6 +53,7 @@ export default {
       let rootLink = document.getElementsByClassName("rootLink");
       for (let j = 0; j < rootLink.length; j++) {
         if (rootLink[j].classList.contains("router-link-exact-active")) {
+          console.log(rootLink[j].classList);
           this.activeFirst = this.getFirstName(rootLink[j].href);
           this.activeSecond = this.getFirstName(rootLink[j].href);
           rootLink[j].children[1].style.display = "block";

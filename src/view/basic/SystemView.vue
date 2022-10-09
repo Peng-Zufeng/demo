@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import { copyDeepData } from "@/common/utils";
 export default {
   data() {
     this.getUrl = "getSysInfo";

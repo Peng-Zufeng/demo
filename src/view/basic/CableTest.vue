@@ -1,7 +1,17 @@
 <template>
-  <div>Cable Test</div>
+  <div>
+    <span>Cable Test</span>
+    <test>
+      <template v-slot:todo="{istodo}">
+        {{istodo}}
+      </template>
+    </test>
+  </div>
 </template>
 
 <script>
-export default {};
+import test from './cable/test.vue';
+export default {
+  components: { test },
+};
 </script>
